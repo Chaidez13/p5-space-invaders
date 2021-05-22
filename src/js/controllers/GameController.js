@@ -5,6 +5,7 @@ class GameController {
     this.y = coords.y;
     //Estado del juego
     this.gameState = 0;
+    this.img = loadImage("src/assets/sprites/ship.png")
   }
 
   draw() {
@@ -14,6 +15,16 @@ class GameController {
     textSize(20);
     text(this.textByState(this.gameState), this.x, this.y);
     pop();
+    fill(255)
+    textSize(20);
+    text("Score: ",20,780);
+    fill(255)
+    textSize(20);
+    text("Lives: ",420,780);
+    
+    image(this.img, 480, 760, 30, 30);
+    image(this.img, 520, 760, 30, 30);
+
   }
 
   textByState(state) {
@@ -28,6 +39,7 @@ class GameController {
         return "Easter Egg (?)";
     }
   }
+
 
   changeGameState() {
       if (this.gameState === 1) this.gameState = 2;
