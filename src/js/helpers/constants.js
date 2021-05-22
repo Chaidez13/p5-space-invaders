@@ -32,4 +32,6 @@ const ENEMY = {
     hitboxWidth: 32, 
     hitboxHeight: 36,
 }
-
+const LIFES = {
+    size: 30,
+}

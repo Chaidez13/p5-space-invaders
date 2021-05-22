@@ -9,7 +9,7 @@ class Enemy {
     //Imagen
     this.img = loadImage("src/assets/sprites/enemy.png");
     //Velocidad
-    this.speed = 3;
+    this.speed = 8;
     //Hitbox
     this.hb = new Hitbox(
       HitboxFactory.coords(this.x + 4, this.y + 2),
@@ -17,14 +17,20 @@ class Enemy {
     );
   }
 
-  draw(direction, down) {
-    image(this.img, this.x, this.y + down, this.width, this.height);
+  draw(direction) {
+    image(this.img, this.x, this.y, this.width, this.height);
     this.move(direction);
+    //this.hb.draw()
   }
 
   move(direction) {
     this.x += this.speed * direction;
     this.hb.x += this.speed * direction;
+  }
+
+  downShip(down) {
+    this.y += down;
+    this.hb.y = this.y + 2;
   }
 }
 

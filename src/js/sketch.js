@@ -23,13 +23,17 @@ function setup() {
   bg = loadImage("src/assets/sprites/space.jpg");
 
   //Inicialización de los objetos
-  gs = new GameController(InstructionsFactory.coords(BOARD.width / 2, 25));
+  gs = new GameController(
+    InterfaceFactory.coords(BOARD.width / 2, 25),
+    InterfaceFactory.coords(40, BOARD.height-15)
+  );
   player = new Player(
     PlayerFactory.coords(
       BOARD.width / 2 - PLAYER.width / 2,
-      BOARD.height - PLAYER.height - 10
+      BOARD.height - PLAYER.height - 50
     ),
     PlayerFactory.controllSettings(39, 37),
+    2,
     gs
   );
   for (let i = 0; i < 4; i++) {
@@ -42,9 +46,9 @@ function setup() {
       );
     }
   }
-  es = new EnemyController(enemies, gs);
+  es = new EnemyController(enemies, player, gs);
 
-  bgSound.setVolume(0.5);
+  bgSound.setVolume(0.3);
   bgSound.loop();
   cnv = createCanvas(BOARD.width, BOARD.height);
   centerCanvas();
@@ -54,7 +58,7 @@ function draw() {
   background(bg);
   player.draw();
   gs.draw();
-  es.moveEnemies()
+  es.moveEnemies();
 }
 
 function keyPressed({ key }) {

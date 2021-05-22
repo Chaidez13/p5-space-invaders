@@ -1,30 +1,39 @@
 class GameController {
-  constructor(coords) {
-    //Coordenadas
-    this.x = coords.x;
-    this.y = coords.y;
+  constructor(instCoords, interCoords, points = 0, lives = 2) {
+    //Coordenadas de las instrucciones
+    this.x = instCoords.x;
+    this.y = instCoords.y;
+    //Coordenadas de la interfaz
+    this.ix = interCoords.x;
+    this.iy = interCoords.y;
     //Estado del juego
     this.gameState = 0;
-    this.img = loadImage("src/assets/sprites/ship.png")
+    //Imagen para las vidas
+    this.lifeImg = loadImage("src/assets/sprites/ship.png");
+    //Vidas
+    this.lives = lives;
+    //Puntos
+    this.points = points;
   }
 
   draw() {
     push();
-    fill(255)
-    textAlign(CENTER)
+    fill(255);
+    textAlign(CENTER);
     textSize(20);
     text(this.textByState(this.gameState), this.x, this.y);
+    text(`Score: ${this.points}`, this.ix, this.iy);
+    text("Lives: ", this.ix + BOARD.width - 180, this.iy);
     pop();
-    fill(255)
-    textSize(20);
-    text("Score: ",20,780);
-    fill(255)
-    textSize(20);
-    text("Lives: ",420,780);
-    
-    image(this.img, 480, 760, 30, 30);
-    image(this.img, 520, 760, 30, 30);
-
+    for (let i = 0; i < this.lives; i++) {
+      image(
+        this.lifeImg,
+        this.ix + BOARD.width - 150 + i * (LIFES.size + 5),
+        this.iy - LIFES.size + 5,
+        LIFES.size,
+        LIFES.size
+      );
+    }
   }
 
   textByState(state) {
@@ -40,14 +49,13 @@ class GameController {
     }
   }
 
-
   changeGameState() {
-      if (this.gameState === 1) this.gameState = 2;
-      else if (this.gameState === 2) this.gameState = 1;
+    if (this.gameState === 1) this.gameState = 2;
+    else if (this.gameState === 2) this.gameState = 1;
   }
 }
 
-const InstructionsFactory = {
+const InterfaceFactory = {
   coords: (x, y) => {
     return { x, y };
   },
