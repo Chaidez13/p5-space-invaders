@@ -15,10 +15,7 @@ let kenvectorFont;
 
 function preload() {
   soundFormats("wav");
-  bgSound = loadSound("src/assets/sounds/background.mp3");
-  kickSound = loadSound("src/assets/sounds/kick");
-  pointSound = loadSound("src/assets/sounds/point");
-  wallSound = loadSound("src/assets/sounds/wall");
+  bgSound = loadSound("src/assets/sounds/backgroundMusic.mp3");
   kenvectorFont = loadFont("src/assets/fonts/kenvector_future_thin.ttf");
 }
 
@@ -47,7 +44,7 @@ function setup() {
   }
   es = new EnemyController(enemies, gs);
 
-  bgSound.setVolume(0.3);
+  bgSound.setVolume(0.5);
   bgSound.loop();
   cnv = createCanvas(BOARD.width, BOARD.height);
   centerCanvas();
