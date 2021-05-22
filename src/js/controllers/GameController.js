@@ -1,15 +1,17 @@
-class Instructions {
+class GameController {
   constructor(coords) {
     //Coordenadas
     this.x = coords.x;
     this.y = coords.y;
-    //Fuente
+    //Estado del juego
     this.gameState = 0;
   }
 
   draw() {
     push();
-    textSize(25);
+    fill(255)
+    textAlign(CENTER)
+    textSize(20);
     text(this.textByState(this.gameState), this.x, this.y);
     pop();
   }
@@ -17,7 +19,7 @@ class Instructions {
   textByState(state) {
     switch (state) {
       case 0:
-        return "                        (W/S) Player 1 - Player 2 (Arriba/Abajo)";
+        return "Moverse: (Flechas) Disparar: (Espacio)";
       case 1:
         return "Pausa (Enter)";
       case 2:

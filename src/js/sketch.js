@@ -1,10 +1,10 @@
 let bg;
 let cnv;
 //Objetos
-let ball;
-let players = [];
+let enemies = [];
+let player;
 let points;
-let inst;
+let gs;
 //Sonidos
 let bgSound;
 let kickSound;
@@ -23,46 +23,31 @@ function preload() {
 }
 
 function setup() {
-  bg = loadImage("src/assets/sprites/background.png");
-  //Inicialización de los objetos
-  inst = new Instructions(
-    InstructionsFactory.coords(BOARD.width / 2 + 2, BOARD.height - 50)
-  );
-  players.push(
-    new Paddle(
-      PaddleFactory.coords(0, BOARD.height / 2 - PADDLE.height / 2),
-      PaddleFactory.controllSettings(87, 83),
-      PLAYERS_ID.player1,
-      inst,
-    ),
-    new Paddle(
-      PaddleFactory.coords(
-        BOARD.width - PADDLE.width,
-        BOARD.height / 2 - PADDLE.height / 2
-      ),
-      PaddleFactory.controllSettings(38, 40),
-      PLAYERS_ID.player2,
-      inst,
-    )
-  );
-  points = new Points(
-    PointsFactory.coords(BOARD.width / 2 + 2, 50),
-    kenvectorFont
-  );
-  ball = new Ball(
-    BallFactory.coords(
-      BOARD.width / 2 - BALL.side / 2,
-      BOARD.height / 2 - BALL.side / 2
-    ),
-    players,
-    points,
-    kickSound,
-    pointSound,
-    wallSound,
-    inst
-  );
+  bg = loadImage("src/assets/sprites/space.jpg");
 
-  bgSound.setVolume(0.3)
+  //Inicialización de los objetos
+  gs = new GameController(InstructionsFactory.coords(BOARD.width / 2, 25));
+  player = new Player(
+    PlayerFactory.coords(
+      BOARD.width / 2 - PLAYER.width / 2,
+      BOARD.height - PLAYER.height - 10
+    ),
+    PlayerFactory.controllSettings(39, 37),
+    gs
+  );
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 10; j++) {
+      enemies.push(
+        new Enemy(
+          EnemyFactory.coords((BOARD.width / 15) * (j + 1), i * 45 + 100),
+          gs
+        )
+      );
+    }
+  }
+  es = new EnemyController(enemies, gs);
+
+  bgSound.setVolume(0.3);
   bgSound.loop();
   cnv = createCanvas(BOARD.width, BOARD.height);
   centerCanvas();
@@ -70,10 +55,9 @@ function setup() {
 
 function draw() {
   background(bg);
-  ball.draw();
-  points.draw();
-  inst.draw();
-  players.forEach((player) => player.draw());
+  player.draw();
+  gs.draw();
+  es.moveEnemies()
 }
 
 function keyPressed({ key }) {
