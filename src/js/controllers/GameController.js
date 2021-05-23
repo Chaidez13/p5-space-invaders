@@ -23,7 +23,7 @@ class GameController {
     textSize(20);
     text(this.textByState(this.gameState), this.x, this.y);
     text(`Score: ${this.points}`, this.ix, this.iy);
-    text("Lives: ", this.ix + BOARD.width - 180, this.iy);
+    text("Health: ", this.ix + BOARD.width - 180, this.iy);
     pop();
     for (let i = 0; i < this.lives; i++) {
       image(
@@ -33,6 +33,7 @@ class GameController {
         LIFES.size,
         LIFES.size
       );
+      
     }
   }
 
