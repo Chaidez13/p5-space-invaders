@@ -35,7 +35,7 @@ function setup() {
     PlayerFactory.controllSettings(39, 37),
     gs
   );
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 5; i++) {
     for (let j = 0; j < 10; j++) {
       enemies.push(
         new Enemy(
