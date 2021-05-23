@@ -33,7 +33,6 @@ class GameController {
         LIFES.size,
         LIFES.size
       );
-      
     }
   }
 
@@ -42,9 +41,9 @@ class GameController {
       case 0:
         return "Moverse: (Flechas) Disparar: (Espacio)";
       case 1:
-        return "Pausa (Enter)";
-      case 2:
         return "Continuar (Enter)";
+      case 2:
+        return "Pausa (Enter)";
       default:
         return "Easter Egg (?)";
     }

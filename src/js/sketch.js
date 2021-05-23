@@ -33,7 +33,6 @@ function setup() {
       BOARD.height - PLAYER.height - 50
     ),
     PlayerFactory.controllSettings(39, 37),
-    2,
     gs
   );
   for (let i = 0; i < 4; i++) {
@@ -41,7 +40,6 @@ function setup() {
       enemies.push(
         new Enemy(
           EnemyFactory.coords((BOARD.width / 15) * (j + 1), i * 45 + 100),
-          gs
         )
       );
     }
@@ -62,7 +60,7 @@ function draw() {
 }
 
 function keyPressed({ key }) {
-  if (key === "Enter") inst.changeGameState();
+  if (key === "Enter") gs.changeGameState();
 }
 
 function windowResized() {

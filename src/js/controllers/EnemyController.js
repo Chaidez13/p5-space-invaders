@@ -6,22 +6,24 @@ class EnemyController {
     this.gs = gs;
 
     this.direction = 1;
-    this.down = 3;
+    this.down = 5;
   }
 
   moveEnemies() {
-    if (this.gs.gameState !== 2) {
-      for (const enemy of enemies) {
-        enemy.draw(this.direction, this.down);
-      }
+    for (const enemy of enemies) enemy.draw();
+    if (this.gs.gameState > 1) {
+      for (const enemy of enemies) enemy.move(this.direction);
       if (this.enemyReachEdge()) {
         this.direction *= -1;
-        for (const enemy of enemies)
-          enemy.downShip(this.down)
+        for (const enemy of enemies) enemy.downShip(this.down);
       }
       if (this.enemyReachPlayer()) {
-        //Condición de perder
-        console.log("Game Over");
+        if (this.gs.lives == 0) {
+          //GameOver
+        } else {
+          this.gs.lives--;
+          this.resetEnemies();
+        }
       }
     }
   }
@@ -33,11 +35,12 @@ class EnemyController {
   }
 
   enemyReachPlayer() {
-    for (const enemy of enemies) {
-      //console.log(enemy.hb);
+    for (const enemy of enemies)
       if (enemy.hb.squareWasHitSquare(this.player.hb)) return true;
-      //noLoop();
-    }
     return false;
+  }
+
+  resetEnemies() {
+    for (const enemy of enemies) enemy.reset();
   }
 }

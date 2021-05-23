@@ -1,16 +1,17 @@
 class Enemy {
-  constructor(coords, gs) {
+  constructor(coords, speed = 8) {
     //Coordenadas
     this.x = coords.x;
     this.y = coords.y;
-   
+    this.xO = this.x;
+    this.yO = this.y;
     //Dimensiones
     this.width = ENEMY.width;
     this.height = ENEMY.height;
     //Imagen
     this.img = loadImage("src/assets/sprites/enemy.png");
     //Velocidad
-    this.speed = 30;
+    this.speed = speed;
     //Hitbox
     this.hb = new Hitbox(
       HitboxFactory.coords(this.x + 4, this.y + 2),
@@ -18,17 +19,8 @@ class Enemy {
     );
   }
 
-  draw(direction) {
-    if(this.y < 670){
+  draw() {
     image(this.img, this.x, this.y, this.width, this.height);
-    }
-    else{
-      this.y = 50;
-      image(this.img, this.x,this.y , this.width, this.height);
-      gs.lives --;
-  }
-  this.move(direction);
-  //this.hb.draw()
   }
 
   move(direction) {
@@ -38,6 +30,13 @@ class Enemy {
 
   downShip(down) {
     this.y += down;
+    this.hb.y = this.y + 2;
+  }
+
+  reset() {
+    this.x = this.xO;
+    this.y = this.yO;
+    this.hb.x = this.x + 4;
     this.hb.y = this.y + 2;
   }
 }
