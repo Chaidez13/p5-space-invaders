@@ -35,6 +35,12 @@ class GameController {
       );
       
     }
+    if(gs.lives <= 0){
+      fill(255);
+      textAlign(CENTER);
+      textSize(50);
+      text("GAME OVER",330,250)
+    }
   }
 
   textByState(state) {
