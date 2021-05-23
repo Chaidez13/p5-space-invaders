@@ -4,6 +4,7 @@ let cnv;
 let enemies = [];
 let player;
 let points;
+let bullet;
 let gs;
 //Sonidos
 let bgSound;
@@ -27,12 +28,14 @@ function setup() {
     InterfaceFactory.coords(BOARD.width / 2, 25),
     InterfaceFactory.coords(40, BOARD.height-15)
   );
+  bullet = new Bullet();
   player = new Player(
     PlayerFactory.coords(
       BOARD.width / 2 - PLAYER.width / 2,
       BOARD.height - PLAYER.height - 50
     ),
     PlayerFactory.controllSettings(39, 37),
+    bullet,
     gs
   );
   for (let i = 0; i < 5; i++) {

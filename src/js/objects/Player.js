@@ -1,5 +1,5 @@
 class Player {
-  constructor(coords, controllSettings, gs ) {
+  constructor(coords, controllSettings, bullet, gs) {
     //Coordenadas
     this.x = coords.x;
     this.y = coords.y;
@@ -17,7 +17,8 @@ class Player {
       HitboxFactory.coords(this.x + 2, this.y + 2),
       HitboxFactory.squareDims(PLAYER.hitboxWidth, PLAYER.hitboxHeight)
     );
-    
+
+    this.bullet = bullet;
     this.gs = gs;
   }
 
