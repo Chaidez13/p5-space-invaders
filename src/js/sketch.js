@@ -4,7 +4,7 @@ let cnv;
 let enemies = [];
 let player;
 let points;
-let bullet;
+var bullet;
 let gs;
 //Sonidos
 let bgSound;
@@ -34,7 +34,7 @@ function setup() {
       BOARD.width / 2 - PLAYER.width / 2,
       BOARD.height - PLAYER.height - 50
     ),
-    PlayerFactory.controllSettings(39, 37),
+    PlayerFactory.controllSettings(39, 37, 32),
     bullet,
     gs
   );
@@ -53,18 +53,23 @@ function setup() {
   bgSound.loop();
   cnv = createCanvas(BOARD.width, BOARD.height);
   centerCanvas();
+  
 }
 
 function draw() {
   background(bg);
   player.draw();
   gs.draw();
+  bullet.draw();
   es.moveEnemies();
+  
 }
 
 function keyPressed({ key }) {
   if (key === "Enter") gs.changeGameState();
 }
+
+
 
 function windowResized() {
   centerCanvas();
