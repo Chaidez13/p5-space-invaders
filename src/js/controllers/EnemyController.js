@@ -1,11 +1,11 @@
 class EnemyController {
-  constructor(enemies, player, bullet, gs) {
+  constructor(enemies, player, bullet, enemyBullet, gs) {
     this.enemies = enemies;
     this.player = player;
-    //Estado del juego
     this.gs = gs;
-
     this.bullet = bullet;
+    this.enemyBullet = enemyBullet;
+
     this.direction = 1;
     this.down = 5;
   }
@@ -22,6 +22,21 @@ class EnemyController {
         this.gs.lose();
       }
       if (this.bullet.hasShot) this.bulletReachEnemy();
+      this.enemyShot();
+    }
+  }
+
+  enemyShot() {
+    if (!this.enemyBullet.hasShot) {
+      var i = Math.floor(Math.random() * 100) + 1;
+      if (i === 35) {
+        //console.log("A");
+        var enemy = this.enemies[Math.floor(Math.random() * this.enemies.length)];
+        this.enemyBullet.shot(
+          enemy.x + ENEMY.width / 2,
+          enemy.y + ENEMY.height
+        );
+      }
     }
   }
 

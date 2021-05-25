@@ -1,5 +1,5 @@
 class Player {
-  constructor(coords, controllSettings, playerBullet, gs) {
+  constructor(coords, controllSettings, playerBullet, enemyBullet, gs) {
     //Coordenadas
     this.x = coords.x;
     this.y = coords.y;
@@ -19,6 +19,7 @@ class Player {
     );
 
     this.bullet = playerBullet;
+    this.enemyBullet = enemyBullet;
     this.gs = gs;
   }
 
@@ -28,20 +29,18 @@ class Player {
 
   moveLeft() {
     if (this.hb.x >= 10) {
-      this.x -= this.speed;
-      this.hb.x -= this.speed;
+      handleX(this.x - this.speed);
     }
   }
 
   moveRight() {
     if (this.hb.x <= BOARD.width - this.hb.width - 10) {
-      this.x += this.speed;
-      this.hb.x += this.speed;
+      handleX(this.x + this.speed);
     }
   }
 
   move() {
-    if (this.gs.gameState !== 1) {
+    if (this.gs.gameState !== 1 && this.gs.gameState !== -1) {
       this.controllSettings.forEach((controll) => {
         if (keyIsDown(controll.key)) {
           this.gs.gameState = 2;
@@ -54,7 +53,28 @@ class Player {
   draw() {
     image(this.img, this.x, this.y, this.width, this.height);
     this.move();
+    if (this.enemyBullet.hasShot) this.bulletCollision();
     //this.hb.draw();
+  }
+
+  bulletCollision() {
+    if (this.hb.squareWasHitSquare(this.enemyBullet.hb)) {
+      this.enemyBullet.reset();
+      if (this.gs.lives > 0) {
+        this.gs.lives--;
+      } else {
+        this.gs.lose();
+      }
+    }
+  }
+
+  handleX(value) {
+    this.x = value;
+    this.hb.x = value + 2;
+  }
+  handleY(value) {
+    this.y = value;
+    this.hb.y = value + 2;
   }
 }
 

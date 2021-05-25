@@ -1,5 +1,5 @@
 class GameController {
-  constructor(instCoords, interCoords, points = 0, lives = 2) {
+  constructor(instCoords, interCoords, enemies, player, points = 0, lives = 2) {
     //Coordenadas de las instrucciones
     this.x = instCoords.x;
     this.y = instCoords.y;
@@ -14,6 +14,10 @@ class GameController {
     this.lives = lives;
     //Puntos
     this.points = points;
+    //Enemigos
+    this.enemies = enemies;
+    //Jugador
+    this.player = player;
   }
 
   draw() {
@@ -37,6 +41,7 @@ class GameController {
     if (this.gameState === -1) {
       push();
       textSize(50);
+      textAlign(CENTER);
       text("GAME OVER", BOARD.width / 2, 250);
       pop();
     }
@@ -60,9 +65,29 @@ class GameController {
   changeGameState() {
     if (this.gameState === 1) this.gameState = 2;
     else if (this.gameState === 2) this.gameState = 1;
+    else if (this.gameState === -1) this.reset();
   }
 
-  win() {}
+  win() {
+    //TODO: Condción de victoria
+  }
+
+  reset() {
+    this.points = 0;
+    this.lives = 2;
+    this.gameState = 0;
+    this.player.handleX(BOARD.width / 2 - PLAYER.width / 2);
+    this.enemies = [];
+    for (let i = 0; i < 5; i++) {
+      for (let j = 0; j < 10; j++) {
+        this.enemies.push(
+          new Enemy(
+            EnemyFactory.coords((BOARD.width / 15) * (j + 1), i * 45 + 100)
+          )
+        );
+      }
+    }
+  }
 
   lose() {
     this.lives = 0;

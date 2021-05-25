@@ -5,6 +5,7 @@ let enemies = [];
 let player;
 let points;
 var playerBullet;
+var enemyBullet;
 let gs;
 //Sonidos
 let bgSound;
@@ -22,13 +23,16 @@ function preload() {
 
 function setup() {
   bg = loadImage("src/assets/sprites/space.jpg");
-
+  frameRate(60);
   //Inicialización de los objetos
   gs = new GameController(
     InterfaceFactory.coords(BOARD.width / 2, 25),
-    InterfaceFactory.coords(40, BOARD.height - 15)
+    InterfaceFactory.coords(40, BOARD.height - 15),
+    enemies,
+    player,
   );
   playerBullet = new Bullet(9, gs);
+  enemyBullet = new Bullet(-7, gs);
   player = new Player(
     PlayerFactory.coords(
       BOARD.width / 2 - PLAYER.width / 2,
@@ -36,6 +40,7 @@ function setup() {
     ),
     PlayerFactory.controllSettings(39, 37, 32),
     playerBullet,
+    enemyBullet,
     gs
   );
   for (let i = 0; i < 5; i++) {
@@ -47,7 +52,7 @@ function setup() {
       );
     }
   }
-  es = new EnemyController(enemies, player, playerBullet, gs);
+  es = new EnemyController(enemies, player, playerBullet, enemyBullet, gs);
 
   bgSound.setVolume(0.3);
   bgSound.loop();
@@ -59,6 +64,7 @@ function draw() {
   background(bg);
   player.draw();
   playerBullet.draw();
+  enemyBullet.draw();
   gs.draw();
   es.moveEnemies();
 }
