@@ -14,8 +14,8 @@ class Bullet {
   
   
   show(pos){
-    seVe=true;
     if(seVe==false){
+      seVe=true;
       console.log('tttt');
       this.x=height/2;
       this.y=900;

@@ -26,7 +26,7 @@ class Player {
     bullet = new Bullet(this.x+player.width/2,this.y);
     console.log("fdfd");
     bullet.show();
-    bullet.draw(this.x);
+    //bullet.draw(this.x);
   }
 
   if
