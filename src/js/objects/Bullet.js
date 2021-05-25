@@ -1,47 +1,58 @@
-var seVe = new Boolean ();
-
 class Bullet {
-  constructor(x,y) {
+  constructor(bulletSpeed, gs) {
     //Coordenadas
-    this.x=x;
-    this.y=y;
+    this.x = 0;
+    this.y = -20;
+    //Dimensiones
+    this.width = BULLET.width;
+    this.height = BULLET.height;
+    //Imagen
     this.img = loadImage("src/assets/sprites/bala.png");
-    this.width = 10;
-    this.height = 10;
+    //Hitbox
+    this.hb = new Hitbox(
+      HitboxFactory.coords(this.x, this.y),
+      HitboxFactory.squareDims(BULLET.width, BULLET.height)
+    );
+    //Auxiliares
+    this.bulletSpeed = bulletSpeed;
+    this.hasShot = false;
+    this.gs = gs;
   }
 
- 
-  
-  
-  show(pos){
-    if(seVe==false){
-      seVe=true;
-      console.log('tttt');
-      this.x=height/2;
-      this.y=900;
+  shot(x, y) {
+    if (this.hasShot === false) {
+      this.hasShot = true;
+      this.handleX(x);
+      this.handleY(y);
     }
-    if(this.y<0){
-      console.log("mmm");
-      seVe=false;
+  }
+
+  draw() {
+    if (this.hasShot) {
+      if (this.gs.gameState > 1) {
+        image(this.img, this.x, this.y, this.width, this.height);
+        this.handleY(this.y - this.bulletSpeed);
+        //this.hb.draw();
+      }
+      if (this.y < BULLET.height) {
+        this.hasShot = false; 
+      }
     }
   }
 
-  move(){
-   
+  reset() {
+    this.hasShot = false;
+    this.handleY(-20);
   }
 
-  draw(){
-    let posX= player.x
-    if(seVe){
-      image(this.img,posX, this.y, this.width, this.height);
-      this.y = this.y -1;
-    }
-    
+  handleX(value) {
+    this.x = value;
+    this.hb.x = value;
   }
-
-  
-
-  
+  handleY(value) {
+    this.y = value;
+    this.hb.y = value;
+  }
 }
 
 const BulletFactory = {
@@ -49,5 +60,3 @@ const BulletFactory = {
     return { x, y };
   },
 };
-
-

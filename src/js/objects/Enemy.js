@@ -21,6 +21,7 @@ class Enemy {
 
   draw() {
     image(this.img, this.x, this.y, this.width, this.height);
+    //this.hb.draw();
   }
 
   move(direction) {

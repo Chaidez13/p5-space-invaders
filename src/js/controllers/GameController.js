@@ -18,11 +18,13 @@ class GameController {
 
   draw() {
     fill(255);
+    push();
     textAlign(CENTER);
-    textSize(20);
     text(this.textByState(this.gameState), this.x, this.y);
+    pop();
+    textSize(20);
     text(`Score: ${this.points}`, this.ix, this.iy);
-    text("Health: ", this.ix + BOARD.width - 180, this.iy);
+    text("Health: ", this.ix + BOARD.width - 220, this.iy);
     for (let i = 0; i < this.lives; i++) {
       image(
         this.lifeImg,
@@ -32,8 +34,7 @@ class GameController {
         LIFES.size
       );
     }
-    if (gs.lives < 0) {
-      this.gameState = -1
+    if (this.gameState === -1) {
       push();
       textSize(50);
       text("GAME OVER", BOARD.width / 2, 250);
@@ -59,6 +60,13 @@ class GameController {
   changeGameState() {
     if (this.gameState === 1) this.gameState = 2;
     else if (this.gameState === 2) this.gameState = 1;
+  }
+
+  win() {}
+
+  lose() {
+    this.lives = 0;
+    this.gameState = -1;
   }
 }
 

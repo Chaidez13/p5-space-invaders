@@ -4,7 +4,7 @@ let cnv;
 let enemies = [];
 let player;
 let points;
-var bullet;
+var playerBullet;
 let gs;
 //Sonidos
 let bgSound;
@@ -26,50 +26,46 @@ function setup() {
   //Inicialización de los objetos
   gs = new GameController(
     InterfaceFactory.coords(BOARD.width / 2, 25),
-    InterfaceFactory.coords(40, BOARD.height-15)
+    InterfaceFactory.coords(40, BOARD.height - 15)
   );
-  bullet = new Bullet();
+  playerBullet = new Bullet(9, gs);
   player = new Player(
     PlayerFactory.coords(
       BOARD.width / 2 - PLAYER.width / 2,
       BOARD.height - PLAYER.height - 50
     ),
     PlayerFactory.controllSettings(39, 37, 32),
-    bullet,
+    playerBullet,
     gs
   );
   for (let i = 0; i < 5; i++) {
     for (let j = 0; j < 10; j++) {
       enemies.push(
         new Enemy(
-          EnemyFactory.coords((BOARD.width / 15) * (j + 1), i * 45 + 100),
+          EnemyFactory.coords((BOARD.width / 15) * (j + 1), i * 45 + 100)
         )
       );
     }
   }
-  es = new EnemyController(enemies, player, gs);
+  es = new EnemyController(enemies, player, playerBullet, gs);
 
   bgSound.setVolume(0.3);
   bgSound.loop();
   cnv = createCanvas(BOARD.width, BOARD.height);
   centerCanvas();
-  
 }
 
 function draw() {
   background(bg);
   player.draw();
+  playerBullet.draw();
   gs.draw();
-  bullet.draw();
   es.moveEnemies();
-  
 }
 
 function keyPressed({ key }) {
   if (key === "Enter") gs.changeGameState();
 }
-
-
 
 function windowResized() {
   centerCanvas();

@@ -1,5 +1,5 @@
 class Player {
-  constructor(coords, controllSettings, bullet, gs) {
+  constructor(coords, controllSettings, playerBullet, gs) {
     //Coordenadas
     this.x = coords.x;
     this.y = coords.y;
@@ -18,18 +18,13 @@ class Player {
       HitboxFactory.squareDims(PLAYER.hitboxWidth, PLAYER.hitboxHeight)
     );
 
-    this.bullet = bullet;
+    this.bullet = playerBullet;
     this.gs = gs;
   }
 
-  shootBullet(){
-    bullet = new Bullet(this.x+player.width/2,this.y);
-    console.log("fdfd");
-    bullet.show();
-    //bullet.draw(this.x);
+  shootBullet() {
+    this.bullet.shot(this.x + PLAYER.width / 2, this.y);
   }
-
-  if
 
   moveLeft() {
     if (this.hb.x >= 10) {
