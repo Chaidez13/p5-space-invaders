@@ -22,6 +22,15 @@ class Player {
     this.gs = gs;
   }
 
+  shootBullet(){
+    bullet = new Bullet(this.x+player.width/2,this.y);
+    console.log("fdfd");
+    bullet.show();
+    bullet.draw(this.x);
+  }
+
+  if
+
   moveLeft() {
     if (this.hb.x >= 10) {
       this.x -= this.speed;
@@ -58,7 +67,7 @@ const PlayerFactory = {
   coords: (x, y) => {
     return { x, y };
   },
-  controllSettings: (moveRightKey, moveLeftKey) => {
+  controllSettings: (moveRightKey, moveLeftKey, shootKey) => {
     return [
       {
         name: "moveRight",
@@ -67,6 +76,10 @@ const PlayerFactory = {
       {
         name: "moveLeft",
         key: moveLeftKey,
+      },
+      {
+        name: "shootBullet",
+        key: shootKey,
       },
     ];
   },
