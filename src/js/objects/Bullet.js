@@ -1,5 +1,5 @@
 class Bullet {
-  constructor(bulletSpeed, gs) {
+  constructor(bulletSpeed, sound, gs) {
     //Coordenadas
     this.x = 0;
     this.y = -20;
@@ -16,11 +16,13 @@ class Bullet {
     //Auxiliares
     this.bulletSpeed = bulletSpeed;
     this.hasShot = false;
+    this.sound = sound;
     this.gs = gs;
   }
 
   shot(x, y) {
     if (this.hasShot === false) {
+      this.sound.play();
       this.hasShot = true;
       this.handleX(x);
       this.handleY(y);

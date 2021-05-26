@@ -1,5 +1,5 @@
 class EnemyController {
-  constructor(enemies, player, bullet, enemyBullet, gs) {
+  constructor(enemies, player, bullet, enemyBullet, sound, gs) {
     this.enemies = enemies;
     this.player = player;
     this.gs = gs;
@@ -8,15 +8,17 @@ class EnemyController {
 
     this.direction = 1;
     this.down = 5;
+    this.sound = sound;
   }
 
   moveEnemies() {
-    for (const enemy of enemies) enemy.draw();
+    for (const enemy of this.enemies) enemy.draw();
     if (this.gs.gameState > 1) {
-      for (const enemy of enemies) enemy.move(this.direction);
+      const speed = 12 - Math.floor(this.enemies.length / 5);
+      for (const enemy of this.enemies) enemy.move(this.direction, speed);
       if (this.enemyReachEdge()) {
         this.direction *= -1;
-        for (const enemy of enemies) enemy.downShip(this.down);
+        for (const enemy of this.enemies) enemy.downShip(this.down);
       }
       if (this.enemyReachPlayer()) {
         this.gs.lose();
@@ -30,14 +32,14 @@ class EnemyController {
     if (!this.enemyBullet.hasShot) {
       var i = Math.floor(Math.random() * 100) + 1;
       if (i === 35) {
-        //console.log("A");
-        var enemy = this.enemies[Math.floor(Math.random() * this.enemies.length)];
+        var enemy =
+          this.enemies[Math.floor(Math.random() * this.enemies.length)];
         this.enemyBullet.shot(
           enemy.x + ENEMY.width / 2,
           enemy.y + ENEMY.height
         );
       }
-    } 
+    }
   }
 
   enemyReachEdge() {
@@ -53,7 +55,16 @@ class EnemyController {
   }
 
   resetEnemies() {
-    for (const enemy of this.enemies) enemy.reset();
+    this.enemies = [];
+    for (let i = 0; i < 5; i++) {
+      for (let j = 0; j < 10; j++) {
+        this.enemies.push(
+          new Enemy(
+            EnemyFactory.coords((BOARD.width / 15) * (j + 1), i * 45 + 100)
+          )
+        );
+      }
+    }
   }
 
   bulletReachEnemy() {
@@ -63,6 +74,7 @@ class EnemyController {
         this.bullet.reset();
         var i = this.enemies.indexOf(enemy);
         if (i !== -1) {
+          this.sound.play();
           this.enemies.splice(index, 1);
         }
         if (this.enemies.length === 0) {

@@ -1,5 +1,5 @@
 class Enemy {
-  constructor(coords, speed = 8) {
+  constructor(coords) {
     //Coordenadas
     this.x = coords.x;
     this.y = coords.y;
@@ -10,8 +10,6 @@ class Enemy {
     this.height = ENEMY.height;
     //Imagen
     this.img = loadImage("src/assets/sprites/enemy.png");
-    //Velocidad
-    this.speed = speed;
     //Hitbox
     this.hb = new Hitbox(
       HitboxFactory.coords(this.x + 4, this.y + 2),
@@ -24,21 +22,26 @@ class Enemy {
     //this.hb.draw();
   }
 
-  move(direction) {
-    this.x += this.speed * direction;
-    this.hb.x += this.speed * direction;
+  move(direction, speed) {
+    this.handleX(this.x + speed * direction)
   }
 
   downShip(down) {
-    this.y += down;
-    this.hb.y = this.y + 2;
+    this.handleY(this.y + down)
   }
 
   reset() {
-    this.x = this.xO;
-    this.y = this.yO;
-    this.hb.x = this.x + 4;
-    this.hb.y = this.y + 2;
+    this.handleX(this.xO)
+    this.handleY(this.yO)
+  }
+
+  handleX(value) {
+    this.x = value;
+    this.hb.x = value + 4;
+  }
+  handleY(value) {
+    this.y = value;
+    this.hb.y = value + 2;
   }
 }
 

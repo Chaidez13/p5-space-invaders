@@ -1,5 +1,13 @@
+const messageStates = {
+  "-2": "Continuar (Enter)",
+  "-1": "Reiniciar (Enter)",
+  0: "Moverse: (Flechas) Disparar: (Espacio)",
+  1: "Reanudar (Enter)",
+  2: "Pausa (Enter)",
+};
+
 class GameController {
-  constructor(instCoords, interCoords, enemies, player, points = 0, lives = 2) {
+  constructor(instCoords, interCoords, loseSound, points = 0, lives = 2) {
     //Coordenadas de las instrucciones
     this.x = instCoords.x;
     this.y = instCoords.y;
@@ -14,17 +22,15 @@ class GameController {
     this.lives = lives;
     //Puntos
     this.points = points;
-    //Enemigos
-    this.enemies = enemies;
-    //Jugador
-    this.player = player;
+    //Sonidos
+    this.loseSound = loseSound;
   }
 
   draw() {
     fill(255);
     push();
     textAlign(CENTER);
-    text(this.textByState(this.gameState), this.x, this.y);
+    text(messageStates[this.gameState], this.x, this.y);
     pop();
     textSize(20);
     text(`Score: ${this.points}`, this.ix, this.iy);
@@ -40,76 +46,48 @@ class GameController {
     }
     if (this.gameState === -1) {
       push();
-      textSize(50);
       textAlign(CENTER);
-      text("GAME OVER", BOARD.width / 2, 250);
+      push();
+      textSize(50);
+      text("GAME OVER", BOARD.width / 2, 80);
+      pop();
+      text(`Score: ${this.points}`, BOARD.width / 2, 120);
       pop();
     }
     if (this.gameState === -2) {
       push();
       textSize(50);
       textAlign(CENTER);
-      text("YOU WIN", BOARD.width / 2, 250);
+      text("YOU WIN", BOARD.width / 2, 80);
       pop();
-    }
-    
-    this.win();
-    
-  }
-
-  textByState(state) {
-    switch (state) {
-      case -2:
-        return "Reiniciar (Enter)";
-      case -1:
-        return "Reiniciar (Enter)";
-      case 0:
-        return "Moverse: (Flechas) Disparar: (Espacio)";
-      case 1:
-        return "Continuar (Enter)";
-      case 2:
-        return "Pausa (Enter)";
-      default:
-        return "Easter Egg (?)";
     }
   }
 
   changeGameState() {
     if (this.gameState === 1) this.gameState = 2;
     else if (this.gameState === 2) this.gameState = 1;
-    else if (this.gameState === -1) this.reset();
-    else if (this.gameState === -2); this.reset();
-    
+    else if (this.gameState === -1) this.reset(true);
+    else if (this.gameState === -2) this.reset(false);
   }
 
-  win(){
-    if(enemies.length==0){
-      this.gameState=-2;  
-    }
-  }
-
-  
-
-  reset() {
-    this.points = 0;
-    this.lives = 2;
-    this.gameState = 0;
-    this.player.handleX(BOARD.width / 2 - PLAYER.width / 2);
-    this.enemies = [];
-    for (let i = 0; i < 5; i++) {
-      for (let j = 0; j < 10; j++) {
-        this.enemies.push(
-          new Enemy(
-            EnemyFactory.coords((BOARD.width / 15) * (j + 1), i * 45 + 100)
-          )
-        );
-      }
-    }
+  win() {
+    this.gameState = -2;
   }
 
   lose() {
+    this.loseSound.play();
+    player.handleY(-50);
     this.lives = 0;
     this.gameState = -1;
+  }
+
+  reset(lose) {
+    this.points = lose ? 0 : this.points;
+    this.lives = lose ? 2 : this.lives;
+    this.gameState = 0;
+    player.handleX(BOARD.width / 2 - PLAYER.width / 2);
+    player.handleY(BOARD.height - PLAYER.height - 50);
+    es.resetEnemies()
   }
 }
 

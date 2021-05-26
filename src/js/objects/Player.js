@@ -1,5 +1,5 @@
 class Player {
-  constructor(coords, controllSettings, playerBullet, enemyBullet, gs) {
+  constructor(coords, controllSettings, playerBullet, enemyBullet, sound, gs) {
     //Coordenadas
     this.x = coords.x;
     this.y = coords.y;
@@ -20,6 +20,7 @@ class Player {
 
     this.bullet = playerBullet;
     this.enemyBullet = enemyBullet;
+    this.sound = sound;
     this.gs = gs;
   }
 
@@ -61,6 +62,7 @@ class Player {
     if (this.hb.squareWasHitSquare(this.enemyBullet.hb)) {
       this.enemyBullet.reset();
       if (this.gs.lives > 0) {
+        this.sound.play();
         this.gs.lives--;
       } else {
         this.gs.lose();

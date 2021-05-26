@@ -4,20 +4,24 @@ let cnv;
 let enemies = [];
 let player;
 let points;
-var playerBullet;
-var enemyBullet;
+let playerBullet;
+let enemyBullet;
 let gs;
+let es;
 //Sonidos
 let bgSound;
-let kickSound;
-let pointSound;
-let wallSound;
+let shotS;
+let hitS;
+let loseS;
 
 let kenvectorFont;
 
 function preload() {
   soundFormats("wav");
   bgSound = loadSound("src/assets/sounds/backgroundMusic.mp3");
+  shotS = loadSound("src/assets/sounds/shot");
+  hitS = loadSound("src/assets/sounds/hit");
+  loseS = loadSound("src/assets/sounds/lose");
   kenvectorFont = loadFont("src/assets/fonts/kenvector_future_thin.ttf");
 }
 
@@ -28,11 +32,10 @@ function setup() {
   gs = new GameController(
     InterfaceFactory.coords(BOARD.width / 2, 25),
     InterfaceFactory.coords(40, BOARD.height - 15),
-    enemies,
-    player,
+    loseS
   );
-  playerBullet = new Bullet(9, gs);
-  enemyBullet = new Bullet(-7, gs);
+  playerBullet = new Bullet(9, shotS, gs);
+  enemyBullet = new Bullet(-7, shotS, gs);
   player = new Player(
     PlayerFactory.coords(
       BOARD.width / 2 - PLAYER.width / 2,
@@ -41,6 +44,7 @@ function setup() {
     PlayerFactory.controllSettings(39, 37, 32),
     playerBullet,
     enemyBullet,
+    hitS,
     gs
   );
   for (let i = 0; i < 5; i++) {
@@ -52,9 +56,16 @@ function setup() {
       );
     }
   }
-  es = new EnemyController(enemies, player, playerBullet, enemyBullet, gs);
+  es = new EnemyController(
+    enemies,
+    player,
+    playerBullet,
+    enemyBullet,
+    hitS,
+    gs
+  );
 
-  bgSound.setVolume(0.3);
+  bgSound.setVolume(0.2);
   bgSound.loop();
   cnv = createCanvas(BOARD.width, BOARD.height);
   centerCanvas();
