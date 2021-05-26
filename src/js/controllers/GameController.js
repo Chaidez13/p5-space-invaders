@@ -24,6 +24,8 @@ class GameController {
     this.points = points;
     //Sonidos
     this.loseSound = loseSound;
+
+    this.difficulty = 1;
   }
 
   draw() {
@@ -35,6 +37,10 @@ class GameController {
     textSize(20);
     text(`Score: ${this.points}`, this.ix, this.iy);
     text("Health: ", this.ix + BOARD.width - 220, this.iy);
+    push();
+    textSize(12);
+    text(`Level: ${this.difficulty}`, this.ix, this.iy - 20);
+    pop();
     for (let i = 0; i < this.lives; i++) {
       image(
         this.lifeImg,
@@ -84,10 +90,11 @@ class GameController {
   reset(lose) {
     this.points = lose ? 0 : this.points;
     this.lives = lose ? 2 : this.lives;
+    this.difficulty = lose ? 1 : this.difficulty + 1;
     this.gameState = 0;
     player.handleX(BOARD.width / 2 - PLAYER.width / 2);
     player.handleY(BOARD.height - PLAYER.height - 50);
-    es.resetEnemies()
+    es.resetEnemies();
   }
 }
 

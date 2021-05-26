@@ -41,7 +41,7 @@ class Player {
   }
 
   move() {
-    if (this.gs.gameState !== 1 && this.gs.gameState !== -1) {
+    if (this.gs.gameState >= 0) {
       this.controllSettings.forEach((controll) => {
         if (keyIsDown(controll.key)) {
           this.gs.gameState = 2;

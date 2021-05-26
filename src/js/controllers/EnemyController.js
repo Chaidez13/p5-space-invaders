@@ -14,7 +14,7 @@ class EnemyController {
   moveEnemies() {
     for (const enemy of this.enemies) enemy.draw();
     if (this.gs.gameState > 1) {
-      const speed = 12 - Math.floor(this.enemies.length / 5);
+      const speed = 12 - Math.floor(this.enemies.length / 5) + this.gs.difficulty;
       for (const enemy of this.enemies) enemy.move(this.direction, speed);
       if (this.enemyReachEdge()) {
         this.direction *= -1;
@@ -31,7 +31,7 @@ class EnemyController {
   enemyShot() {
     if (!this.enemyBullet.hasShot) {
       var i = Math.floor(Math.random() * 100) + 1;
-      if (i === 35) {
+      if (i <= this.gs.difficulty) {
         var enemy =
           this.enemies[Math.floor(Math.random() * this.enemies.length)];
         this.enemyBullet.shot(
