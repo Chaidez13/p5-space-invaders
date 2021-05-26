@@ -37,7 +37,7 @@ class EnemyController {
           enemy.y + ENEMY.height
         );
       }
-    }
+    } 
   }
 
   enemyReachEdge() {

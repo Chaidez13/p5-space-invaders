@@ -45,10 +45,22 @@ class GameController {
       text("GAME OVER", BOARD.width / 2, 250);
       pop();
     }
+    if (this.gameState === -2) {
+      push();
+      textSize(50);
+      textAlign(CENTER);
+      text("YOU WIN", BOARD.width / 2, 250);
+      pop();
+    }
+    
+    this.win();
+    
   }
 
   textByState(state) {
     switch (state) {
+      case -2:
+        return "Reiniciar (Enter)";
       case -1:
         return "Reiniciar (Enter)";
       case 0:
@@ -66,11 +78,17 @@ class GameController {
     if (this.gameState === 1) this.gameState = 2;
     else if (this.gameState === 2) this.gameState = 1;
     else if (this.gameState === -1) this.reset();
+    else if (this.gameState === -2); this.reset();
+    
   }
 
-  win() {
-    //TODO: Condción de victoria
+  win(){
+    if(enemies.length==0){
+      this.gameState=-2;  
+    }
   }
+
+  
 
   reset() {
     this.points = 0;

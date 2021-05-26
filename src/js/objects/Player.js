@@ -29,13 +29,13 @@ class Player {
 
   moveLeft() {
     if (this.hb.x >= 10) {
-      handleX(this.x - this.speed);
+      this.handleX(this.x - this.speed);
     }
   }
 
   moveRight() {
     if (this.hb.x <= BOARD.width - this.hb.width - 10) {
-      handleX(this.x + this.speed);
+      this.handleX(this.x + this.speed);
     }
   }
 
