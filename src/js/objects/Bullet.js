@@ -33,7 +33,7 @@ class Bullet {
     if (this.hasShot) {
       image(this.img, this.x, this.y, this.width, this.height);
       //this.hb.draw();
-      if (this.gs.gameState > 1) this.handleY(this.y - this.bulletSpeed);
+      if (this.gs.gameState > 1) this.handleY(this.y - this.bulletSpeed - this.gs.difficulty);
       if (this.y > BOARD.height || this.y < 0) this.hasShot = false;
     }
   }

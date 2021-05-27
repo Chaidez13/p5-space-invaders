@@ -14,7 +14,7 @@ class EnemyController {
   moveEnemies() {
     for (const enemy of this.enemies) enemy.draw();
     if (this.gs.gameState > 1) {
-      const speed = 12 - Math.floor(this.enemies.length / 5) + this.gs.difficulty;
+      const speed = 12 - Math.round(this.enemies.length / 5) + this.gs.difficulty;
       for (const enemy of this.enemies) enemy.move(this.direction, speed);
       if (this.enemyReachEdge()) {
         this.direction *= -1;

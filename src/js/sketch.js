@@ -34,7 +34,7 @@ function setup() {
     InterfaceFactory.coords(40, BOARD.height - 15),
     loseS
   );
-  playerBullet = new Bullet(9, shotS, gs);
+  playerBullet = new Bullet(10, shotS, gs);
   enemyBullet = new Bullet(-7, shotS, gs);
   player = new Player(
     PlayerFactory.coords(
